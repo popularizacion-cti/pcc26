@@ -1,6 +1,9 @@
 // ================================
 // MÓDULO: PARTICIPANTES (PCC, EUREKA, CCYT, INTERNACIONALES)
 // ================================
+
+// https://docs.google.com/spreadsheets/d/15hQVhxcA40ab78kdMh4yIv8QYi4nHuANkbnEISdJBg8/edit?gid=0#gid=0
+
 const SHEET_ID = "15hQVhxcA40ab78kdMh4yIv8QYi4nHuANkbnEISdJBg8"; 
 const URL_PCC = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=PCC`;
 const URL_EUREKA = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=Eureka`;
