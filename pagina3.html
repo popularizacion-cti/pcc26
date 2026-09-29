@@ -37,16 +37,13 @@
             <div class="w-full mb-3">
                 <div class="bg-slate-50 p-1.5 rounded-xl shadow-inner border border-slate-200 flex flex-wrap gap-8 justify-center md:justify-start w-full md:w-fit mx-auto ">
                     <button id="tab-pcc" class="tab-btn px-3 py-1.5 rounded-lg font-bold text-xs md:text-sm transition-all duration-300 bg-brand text-white shadow-md flex items-center gap-1.5 flex-grow md:flex-grow-0 justify-center" data-tab="PCC">
-                        <span class="text-base">🏛️</span> Perú con Ciencia
+                        <span class="text-base">🔬</span> Perú con Ciencia
                     </button>
                     <button id="tab-eureka" class="tab-btn px-3 py-1.5 rounded-lg font-bold text-xs md:text-sm text-slate-500 hover:text-slate-800 transition-all duration-300 flex items-center gap-1.5 flex-grow md:flex-grow-0 justify-center" data-tab="EUREKA">
                         <span class="text-base">💡</span> Eureka
                     </button>
                     <button id="tab-ccyt" class="tab-btn px-3 py-1.5 rounded-lg font-bold text-xs md:text-sm text-slate-500 hover:text-slate-800 transition-all duration-300 flex items-center gap-1.5 flex-grow md:flex-grow-0 justify-center" data-tab="CCYT">
-                        <span class="text-base">🔬</span> Clubes de CyT
-                    </button>
-                    <button id="tab-intl" class="tab-btn px-3 py-1.5 rounded-lg font-bold text-xs md:text-sm text-slate-500 hover:text-slate-800 transition-all duration-300 flex items-center gap-1.5 flex-grow md:flex-grow-0 justify-center" data-tab="INTL">
-                        <span class="text-base">🌍</span> Internacional
+                        <span class="text-base">🏫</span> Clubes de CyT
                     </button>
                 </div>
             </div>
@@ -84,19 +81,17 @@
                     </div>
                 </div>
 
-                <!-- Columna Derecha: Mapas -->
-                <div class="lg:col-span-5 bg-slate-50 p-6 rounded-3xl shadow-lg border-t-4 border-dark flex flex-col items-center justify-center sticky top-24 min-w-0 w-full">
-                    <div class="text-center mb-4">
-                        <h3 class="font-black text-slate-800 text-xl">🗺️ Mapa de Procedencia</h3>
-                        <p id="info-hover-mapa" class="text-xs font-bold text-slate-500 h-5 mt-1 transition-all">Seleccione una ubicación para ver detalles</p>
+                <!-- Columna Derecha: Plano de Stands -->
+                <div class="lg:col-span-5 bg-slate-50 p-6 rounded-3xl shadow-lg border-t-4 border-dark flex flex-col items-center justify-start sticky top-24 min-w-0 w-full h-[600px]">
+                    <div class="text-center mb-4 w-full">
+                        <h3 class="font-black text-slate-800 text-xl">📍 Plano de la Feria</h3>
+                        <p id="info-hover-mapa" class="text-xs font-bold text-slate-500 h-5 mt-1 transition-all">Haz clic en una tarjeta para ubicar su stand</p>
                     </div>
 
-                    <!-- Contenedor del mapa -->
-                    <div class="w-full flex justify-center items-center bg-white rounded-2xl border border-slate-200/60 p-4 relative h-[380px] md:h-[480px] overflow-hidden shadow-inner">
-                        <!-- Mapa Perú -->
-                        <div id="mapa-peru" class="w-full h-full max-w-[280px] flex justify-center items-center transition-opacity duration-500 opacity-100 z-10 [&>svg]:w-full [&>svg]:h-full [&>svg]:max-h-full"></div>
-                        <!-- Mapa Mundo -->
-                        <div id="mapa-mundo" class="w-full h-full absolute inset-0 m-auto flex justify-center items-center opacity-0 pointer-events-none transition-opacity duration-500 z-0 [&>svg]:w-full [&>svg]:h-auto [&>svg]:max-h-full"></div>
+                    <!-- Contenedor del plano dinámico -->
+                    <div class="w-full flex-grow flex justify-center items-center bg-white rounded-2xl border border-slate-200/60 p-4 relative overflow-hidden shadow-inner">
+                        <!-- El layout SVG se inyectará aquí desde Javascript -->
+                        <div id="plano-feria" class="w-full h-full flex justify-center items-center z-10 [&>svg]:w-full [&>svg]:h-full"></div>
                     </div>
                 </div>
 
@@ -180,15 +175,6 @@ PIE DE PÁGINA
                     </div>
                 </div>
             </div> 
-
-            <!-- <div class="py-6 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
-                <p class="text-slate-500 text-xs font-medium">
-                    © 2026 Consejo Nacional de Ciencia, Tecnología e Innovación (Concytec). Todos los derechos reservados.
-                </p>
-                <p class="text-slate-500 text-xs font-medium">
-                    Sitio oficial de la XXII edición FEBICYT
-                </p>
-            </div> -->
 
         </div> 
     </footer>

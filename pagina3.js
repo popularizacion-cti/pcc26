@@ -1,16 +1,13 @@
 // ================================
-// MÓDULO: PARTICIPANTES (PCC, EUREKA, CCYT, INTERNACIONALES)
+// MÓDULO: PARTICIPANTES Y PLANO INTERACTIVO
 // ================================
-
-// https://docs.google.com/spreadsheets/d/15hQVhxcA40ab78kdMh4yIv8QYi4nHuANkbnEISdJBg8/edit?gid=0#gid=0
 
 const SHEET_ID = "15hQVhxcA40ab78kdMh4yIv8QYi4nHuANkbnEISdJBg8"; 
 const URL_PCC = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=PCC`;
 const URL_EUREKA = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=Eureka`;
 const URL_CCYT = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=CCYT`;
-const URL_INTL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=Internacional`;
 
-let dataGlobal = { PCC: [], EUREKA: [], CCYT: [], INTL: [] };
+let dataGlobal = { PCC: [], EUREKA: [], CCYT: [] };
 let tabActual = "PCC"; 
 let dataMostrada = [];
 
@@ -20,66 +17,76 @@ const normalizarNombre = (str) => {
 };
 
 // =======================
-// 1. INICIALIZACIÓN
+// 1. INICIALIZACIÓN Y LECTURA
 // =======================
 async function inicializarParticipantes() {
     try {
-        const [resPCC, resEureka, resCCYT, resIntl] = await Promise.all([
-            fetch(URL_PCC), fetch(URL_EUREKA), fetch(URL_CCYT), fetch(URL_INTL)
+        const [resPCC, resEureka, resCCYT] = await Promise.all([
+            fetch(URL_PCC), fetch(URL_EUREKA), fetch(URL_CCYT)
         ]);
 
         const textPCC = await resPCC.text();
         const textEureka = await resEureka.text();
         const textCCYT = await resCCYT.text();
-        const textIntl = await resIntl.text();
 
         const parseGoogleJSON = (text) => JSON.parse(text.substring(text.indexOf("{"), text.lastIndexOf("}") + 1)).table.rows.slice(1);
 
-        dataGlobal.PCC = parseGoogleJSON(textPCC).map(r => ({
-            pais: r.c[0]?.v || "Perú",
-            region: r.c[1]?.v || "",
-            institucion: r.c[2]?.v || "",
-            siglas: r.c[3]?.v || "",
-            tipo: r.c[4]?.v || "",
-            gestion: r.c[5]?.v || ""
-        })).filter(c => c.institucion !== "");
+        // --- DATA PCC ---
+        dataGlobal.PCC = parseGoogleJSON(textPCC).map(r => {
+            let row = {
+                pais: r.c[0]?.v || "Perú",
+                region: r.c[1]?.v || "",
+                institucion: r.c[2]?.v || "",
+                siglas: r.c[3]?.v || "",
+                tipo: r.c[4]?.v || "",
+                gestion: r.c[5]?.v || "",
+                stand: `PCC-${Math.floor(Math.random() * 10) + 1}`, // SIMULACIÓN DE STAND
+                proyectos: []
+            };
+            // Leer proyectos desde la columna G (índice 6) en adelante
+            for (let i = 6; i < r.c.length; i++) {
+                if (r.c[i] && r.c[i].v) row.proyectos.push(r.c[i].v);
+            }
+            return row;
+        }).filter(c => c.institucion !== "");
 
+        // --- DATA EUREKA ---
         dataGlobal.EUREKA = parseGoogleJSON(textEureka).map(r => ({
             pais: "Perú",
             region: r.c[0]?.v || "",
             dre: r.c[1]?.v || "",
             ugel: r.c[2]?.v || "",
-            gestion: r.c[3]?.v || "",
+            gestion: r.c[3]?.v || "", // La columna 3 ahora es gestión
             iiee: r.c[4]?.v || "",
-            zona: r.c[5]?.v || "",
-            distrito: r.c[6]?.v || "",
+            distrito: r.c[6]?.v || "", // Se ignora la zona (índice 5)
             categoria: r.c[7]?.v || "",
             area: r.c[8]?.v || "",
-            titulo: r.c[9]?.v || "" 
+            titulo: r.c[9]?.v || "",
+            stand: `EUR-${Math.floor(Math.random() * 10) + 1}` // SIMULACIÓN DE STAND
         })).filter(c => c.iiee !== "");
 
-        dataGlobal.CCYT = parseGoogleJSON(textCCYT).map(r => ({
-            pais: "Perú",
-            region: r.c[1]?.v || "",
-            dre: r.c[2]?.v || "",
-            ugel: r.c[3]?.v || "",
-            iiee: r.c[4]?.v || "",
-            gestion: r.c[5]?.v || "",
-            ccyt: r.c[6]?.v || "",
-            nivel: r.c[7]?.v || ""
-        })).filter(c => c.ccyt !== "");
+        // --- DATA CCYT ---
+        dataGlobal.CCYT = parseGoogleJSON(textCCYT).map(r => {
+            let row = {
+                pais: "Perú",
+                region: r.c[1]?.v || "",
+                dre: r.c[2]?.v || "",
+                ugel: r.c[3]?.v || "",
+                iiee: r.c[4]?.v || "",
+                gestion: r.c[5]?.v || "",
+                ccyt: r.c[6]?.v || "",
+                nivel: r.c[7]?.v || "",
+                stand: `CYT-${Math.floor(Math.random() * 10) + 1}`, // SIMULACIÓN DE STAND
+                proyectos: []
+            };
+            // Leer proyectos desde la columna I (índice 8) en adelante
+            for (let i = 8; i < r.c.length; i++) {
+                if (r.c[i] && r.c[i].v) row.proyectos.push(r.c[i].v);
+            }
+            return row;
+        }).filter(c => c.ccyt !== "");
 
-        dataGlobal.INTL = parseGoogleJSON(textIntl).map(r => ({
-            pais: r.c[0]?.v || "",
-            region: r.c[1]?.v || "",
-            ciudad: r.c[2]?.v || "",
-            iiee: r.c[3]?.v || "",
-            gestion: r.c[4]?.v || "",
-            proyecto: r.c[5]?.v || "",
-            area: r.c[6]?.v || ""
-        })).filter(c => c.pais !== "");
-
-        await cargarMapasSVG();
+        generarPlanoFeriaDinamico();
         configurarInterfaz();
         cambiarTab("PCC"); 
 
@@ -89,81 +96,52 @@ async function inicializarParticipantes() {
 }
 
 // =======================
-// 2. CONFIGURACIÓN DE MAPAS
+// 2. PLANO DE STANDS (LAYOUT)
 // =======================
-async function cargarMapasSVG() {
-    const contenedorPeru = document.getElementById('mapa-peru');
-    if (contenedorPeru) {
-        try {
-            const resPe = await fetch('peru.svg');
-            contenedorPeru.innerHTML = await resPe.text();
-            prepararInteraccionesMapa('#mapa-peru svg path', true);
-        } catch (err) { console.warn("Error peru.svg:", err); }
+function generarPlanoFeriaDinamico() {
+    const contenedor = document.getElementById('plano-feria');
+    if (!contenedor) return;
+
+    let standsHTML = '';
+    
+    // Generar 10 recuadros simulados por cada categoría
+    for(let i = 1; i <= 10; i++) {
+        standsHTML += `<rect id="PCC-${i}" x="${i*35 - 20}" y="20" width="30" height="30" rx="4" class="stand-rect fill-slate-200 stroke-slate-300 stroke-[1.5] transition-all duration-300"/>`;
+        standsHTML += `<text x="${i*35 - 5}" y="38" font-size="8" font-weight="bold" fill="#64748b" text-anchor="middle" class="pointer-events-none">PCC${i}</text>`;
+        
+        standsHTML += `<rect id="EUR-${i}" x="${i*35 - 20}" y="70" width="30" height="30" rx="4" class="stand-rect fill-slate-200 stroke-slate-300 stroke-[1.5] transition-all duration-300"/>`;
+        standsHTML += `<text x="${i*35 - 5}" y="88" font-size="8" font-weight="bold" fill="#64748b" text-anchor="middle" class="pointer-events-none">EUR${i}</text>`;
+        
+        standsHTML += `<rect id="CYT-${i}" x="${i*35 - 20}" y="120" width="30" height="30" rx="4" class="stand-rect fill-slate-200 stroke-slate-300 stroke-[1.5] transition-all duration-300"/>`;
+        standsHTML += `<text x="${i*35 - 5}" y="138" font-size="8" font-weight="bold" fill="#64748b" text-anchor="middle" class="pointer-events-none">CYT${i}</text>`;
     }
 
-    const contenedorMundo = document.getElementById('mapa-mundo');
-    if (contenedorMundo) {
-        try {
-            const resMundo = await fetch('world.svg');
-            contenedorMundo.innerHTML = await resMundo.text();
-            prepararInteraccionesMapa('#mapa-mundo svg path', false);
-        } catch (err) { console.warn("Error world.svg:", err); }
-    }
+    contenedor.innerHTML = `
+        <svg viewBox="0 0 370 170" preserveAspectRatio="xMidYMid meet">
+            <text x="185" y="10" font-size="10" font-weight="bold" fill="#94a3b8" text-anchor="middle">ZONA DE EXPOSICIÓN</text>
+            ${standsHTML}
+        </svg>
+    `;
 }
 
-function prepararInteraccionesMapa(selector, esPeru) {
-    document.querySelectorAll(selector).forEach(p => {
-        p.classList.add('cursor-pointer', 'transition-all', 'duration-300', 'region-path');
-        p.style.stroke = "#ffffff";
-        p.style.strokeWidth = "1px";
-        
-        p.addEventListener('click', () => {
-            const id = p.getAttribute('id') || p.getAttribute('name');
-            if (!id) return;
-
-            if (esPeru && tabActual === "INTL") return;
-            if (!esPeru && tabActual !== "INTL") return;
-
-            const selectFiltro1 = document.getElementById('filtro1');
-            const targetNorm = normalizarNombre(id);
-            let matchedValue = "";
-            
-            for (let option of selectFiltro1.options) {
-                if (normalizarNombre(option.value) === targetNorm) {
-                    matchedValue = option.value; break;
-                }
-            }
-            selectFiltro1.value = (selectFiltro1.value === matchedValue) ? "" : matchedValue;
-            aplicarFiltros();
-        });
-        
-        p.addEventListener('mousemove', () => {
-            const id = p.getAttribute('id') || p.getAttribute('name');
-            const infoHover = document.getElementById('info-hover-mapa');
-            if (!id || !infoHover) return;
-            
-            let datasetActual = dataGlobal[tabActual];
-            let cantidad = 0;
-
-            if (esPeru && tabActual !== "INTL") {
-                cantidad = datasetActual.filter(c => normalizarNombre(c.region) === normalizarNombre(id)).length;
-            } else if (!esPeru && tabActual === "INTL") {
-                cantidad = datasetActual.filter(c => normalizarNombre(c.pais) === normalizarNombre(id)).length;
-            }
-
-            let term = "Participantes";
-            if (tabActual === "CCYT") term = "Clubes";
-            else if (tabActual === "EUREKA" || tabActual === "INTL") term = "Proyectos";
-            else term = "Instituciones";
-
-            infoHover.innerHTML = `<span class="text-brand font-black text-base">${id}</span> • ${cantidad} ${term}`;
-        });
-        
-        p.addEventListener('mouseout', () => {
-            const infoHover = document.getElementById('info-hover-mapa');
-            if (infoHover) infoHover.innerHTML = "Seleccione una ubicación para ver detalles";
-        });
+window.resaltarStandEnPlano = function(idStand) {
+    // Apagar todos los stands
+    document.querySelectorAll('.stand-rect').forEach(el => {
+        el.classList.remove('fill-[#00B4CE]', 'stroke-[#008ba0]', 'animate-pulse');
+        el.classList.add('fill-slate-200', 'stroke-slate-300');
     });
+
+    // Encender el stand objetivo
+    const standObjetivo = document.getElementById(idStand);
+    if (standObjetivo) {
+        standObjetivo.classList.remove('fill-slate-200', 'stroke-slate-300');
+        standObjetivo.classList.add('fill-[#00B4CE]', 'stroke-[#008ba0]', 'animate-pulse');
+
+        // Scroll automático en móviles para ver el plano
+        if(window.innerWidth < 1024) {
+            document.getElementById('plano-feria').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }
 }
 
 // =======================
@@ -191,7 +169,6 @@ function cambiarTab(nuevoTab) {
     tabActual = nuevoTab;
     const datasetActual = dataGlobal[tabActual];
     
-    // Activar estilo en botón seleccionado
     document.querySelectorAll(".tab-btn").forEach(btn => {
         if (btn.getAttribute("data-tab") === tabActual) {
             btn.className = "tab-btn px-3 py-1.5 rounded-lg font-bold text-xs md:text-sm transition-all duration-300 bg-brand text-white shadow-md flex items-center gap-1.5 flex-grow md:flex-grow-0 justify-center";
@@ -200,7 +177,6 @@ function cambiarTab(nuevoTab) {
         }
     });
 
-    // Configurar Filtros
     if (tabActual === "PCC") {
         llenarSelect("filtro1", datasetActual.map(c => c.region), "Todas las Regiones");
         llenarSelect("filtro2", datasetActual.map(c => c.tipo), "Tipos de Institución");
@@ -208,18 +184,13 @@ function cambiarTab(nuevoTab) {
     } 
     else if (tabActual === "EUREKA") {
         llenarSelect("filtro1", datasetActual.map(c => c.region), "Todas las Regiones");
-        llenarSelect("filtro2", datasetActual.map(c => c.zona), "Todas las Zonas");
+        llenarSelect("filtro2", datasetActual.map(c => c.gestion), "Tipos de Gestión"); // Cambiado a Gestión
         llenarSelect("filtro3", datasetActual.map(c => c.area), "Todas las Áreas");
     }
     else if (tabActual === "CCYT") {
         llenarSelect("filtro1", datasetActual.map(c => c.region), "Todas las Regiones");
         llenarSelect("filtro2", datasetActual.map(c => c.gestion), "Tipos de Gestión");
         llenarSelect("filtro3", datasetActual.map(c => c.nivel), "Niveles Educativos");
-    }
-    else if (tabActual === "INTL") {
-        llenarSelect("filtro1", datasetActual.map(c => c.pais), "Todos los Países");
-        llenarSelect("filtro2", datasetActual.map(c => c.gestion), "Tipos de Gestión");
-        llenarSelect("filtro3", datasetActual.map(c => c.area), "Todas las Áreas");
     }
 
     aplicarFiltros();
@@ -244,7 +215,7 @@ function aplicarFiltros() {
         } 
         else if (tabActual === "EUREKA") {
             if (f1 && normalizarNombre(c.region) !== f1) return false;
-            if (f2 && normalizarNombre(c.zona) !== f2) return false;
+            if (f2 && normalizarNombre(c.gestion) !== f2) return false; // Filtra por gestión
             if (f3 && normalizarNombre(c.area) !== f3) return false;
         }
         else if (tabActual === "CCYT") {
@@ -252,16 +223,10 @@ function aplicarFiltros() {
             if (f2 && normalizarNombre(c.gestion) !== f2) return false;
             if (f3 && normalizarNombre(c.nivel) !== f3) return false;
         }
-        else if (tabActual === "INTL") {
-            if (f1 && normalizarNombre(c.pais) !== f1) return false;
-            if (f2 && normalizarNombre(c.gestion) !== f2) return false;
-            if (f3 && normalizarNombre(c.area) !== f3) return false;
-        }
         return true;
     });
 
     renderizarTarjetas();
-    actualizarIluminacionMapas(f1);
 }
 
 function renderizarTarjetas() {
@@ -276,34 +241,51 @@ function renderizarTarjetas() {
     let htmlSalida = "";
     
     dataMostrada.forEach(c => {
-        htmlSalida += `<div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 hover:border-brand/50 hover:shadow-md transition-all duration-300 flex flex-col justify-between h-full group">`;
+        // Tarjeta clicable para el plano interactivo
+        htmlSalida += `<div onclick="resaltarStandEnPlano('${c.stand}')" class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 hover:border-brand hover:shadow-md transition-all duration-300 flex flex-col justify-between h-full group cursor-pointer">`;
         
         if (tabActual === "PCC") {
             const badgeTipo = c.tipo ? `<span class="px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider bg-slate-100 text-slate-700">${c.tipo}</span>` : '';
+            const badgeGestion = c.gestion ? `<span class="px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider bg-slate-100 text-slate-700">${c.gestion}</span>` : '';
+            
+            let bloqueProyectos = '';
+            if (c.proyectos && c.proyectos.length > 0) {
+                bloqueProyectos = `
+                    <div class="mt-3 pt-3 border-t border-slate-100">
+                        <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Proyectos a exponer:</p>
+                        <ul class="list-disc list-inside text-[11px] text-slate-600 space-y-1 ml-1 leading-snug">
+                            ${c.proyectos.map(p => `<li>${p}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+
             htmlSalida += `
                 <div class="space-y-2 mb-4">
                     <span class="text-[10px] font-black uppercase tracking-wider block text-brand mb-1">${c.siglas}</span>
                     <h4 class="text-sm font-bold text-slate-800 leading-snug group-hover:text-brand transition-colors">${c.institucion}</h4>
-                    <div class="flex flex-wrap gap-2 pt-1">${badgeTipo}</div>
+                    <div class="flex flex-wrap gap-2 pt-1">${badgeTipo} ${badgeGestion}</div>
                 </div>
                 <div class="pt-3 border-t border-slate-100 text-[11px] text-slate-500 space-y-1">
                     <p><span class="font-bold text-slate-700">📍 Región:</span> ${c.region || c.pais}</p>
-                    <p><span class="font-bold text-slate-700">🏢 Gestión:</span> ${c.gestion}</p>
-                </div>`;
+                </div>
+                ${bloqueProyectos}`;
         } 
         else if (tabActual === "EUREKA") {
-            // Colores por Área en Eureka
             const areaStr = c.area.toLowerCase();
             let colorArea = 'bg-slate-100 text-slate-700';
             if (areaStr.includes('sociales')) colorArea = 'bg-purple-100 text-purple-700';
             else if (areaStr.includes('indagación') || areaStr.includes('indagacion')) colorArea = 'bg-blue-100 text-blue-700';
             else if (areaStr.includes('soluciones') || areaStr.includes('tecnológicas')) colorArea = 'bg-emerald-100 text-emerald-700';
 
+            const badgeGestion = c.gestion ? `<span class="px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider bg-slate-100 text-slate-700">${c.gestion}</span>` : '';
+
             htmlSalida += `
                 <div class="space-y-2 mb-4">
                     <div class="flex flex-wrap gap-2 pt-1">
                         <span class="px-2 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider block text-slate-500 bg-slate-100">${c.categoria} </span>
                         <span class="px-2 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider block ${colorArea}">${c.area}</span>
+                        ${badgeGestion}
                     </div>
                     <h4 class="text-md font-extrabold text-brand/80 leading-snug group-hover:text-brand transition-colors uppercase">${c.region}</h4>
                     <h4 class="text-[14px] font-extrabold text-slate-600 leading-snug group-hover:text-dark/90 transition-colors uppercase">${c.titulo}</h4>
@@ -312,16 +294,26 @@ function renderizarTarjetas() {
                 <div class="pt-3 border-t border-slate-100 grid grid-cols-2 gap-2 text-[11px] text-slate-500">
                     <p><span class="font-bold text-slate-700">📍 Región:</span> ${c.dre}</p>
                     <p><span class="font-bold text-slate-700">🏢 UGEL:</span> ${c.ugel}</p>
-                    <p><span class="font-bold text-slate-700">📌 Distrito:</span> ${c.distrito}</p>
-                    <p><span class="font-bold text-slate-700">🏙️ Zona:</span> ${c.zona}</p>
+                    <p class="col-span-2"><span class="font-bold text-slate-700">📌 Distrito:</span> ${c.distrito}</p>
                 </div>`;
         } 
         else if (tabActual === "CCYT") {
-            // Colores por Nivel en CCYT
             const nivelStr = c.nivel.toLowerCase();
             let colorNivel = 'bg-slate-100 text-slate-700';
             if (nivelStr.includes('primaria')) colorNivel = 'bg-orange-100 text-orange-700';
             else if (nivelStr.includes('secundaria')) colorNivel = 'bg-indigo-100 text-indigo-700';
+
+            let bloqueProyectos = '';
+            if (c.proyectos && c.proyectos.length > 0) {
+                bloqueProyectos = `
+                    <div class="mt-3 pt-3 border-t border-slate-100">
+                        <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Proyectos a exponer:</p>
+                        <ul class="list-disc list-inside text-[11px] text-slate-600 space-y-1 ml-1 leading-snug">
+                            ${c.proyectos.map(p => `<li>${p}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
 
             htmlSalida += `
                 <div class="space-y-2 mb-4">
@@ -336,75 +328,14 @@ function renderizarTarjetas() {
                 <div class="pt-3 border-t border-slate-100 grid grid-cols-1 gap-2 text-[11px] text-slate-500">
                     <p><span class="font-bold text-slate-700">📍 Región:</span> ${c.dre}</p>
                     <p><span class="font-bold text-slate-700">🏢 UGEL:</span> ${c.ugel}</p>
-                </div>`;
-        }
-        else if (tabActual === "INTL") {
-            htmlSalida += `
-                <div class="space-y-2 mb-4">
-                    <div class="flex flex-wrap gap-2 pt-1">
-                        <span class="px-2 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider block text-slate-500 bg-slate-100">${c.area} </span>
-                    </div>
-                    <h4 class="text-md font-extrabold text-brand/80 leading-snug group-hover:text-brand transition-colors uppercase">${c.pais}</h4>
-                    <h4 class="text-xs font-extrabold text-slate-600 leading-snug group-hover:text-dark transition-colors uppercase">${c.proyecto}</h4>
-                    <p class="text-[11px] text-slate-600 font-medium">🏫 ${c.iiee}</p>
-                    <div class="flex flex-wrap gap-2 pt-1">
-                        <span class="px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider bg-slate-100 text-slate-600">${c.gestion}</span>
-                    </div>
                 </div>
-                <div class="pt-3 border-t border-slate-100 grid grid-cols-2 gap-2 text-[11px] text-slate-500">
-                    <p><span class="font-bold text-slate-700">🌎 País:</span> ${c.pais}</p>
-                    <p><span class="font-bold text-slate-700">📍 Ciudad:</span> ${c.ciudad}</p>
-                </div>`;
+                ${bloqueProyectos}`;
         }
         
         htmlSalida += `</div>`;
     });
     
     contenedor.innerHTML = htmlSalida;
-}
-
-function actualizarIluminacionMapas(filtro1Activo) {
-    const mapaPeru = document.getElementById("mapa-peru");
-    const mapaMundo = document.getElementById("mapa-mundo");
-    const datasetActual = dataGlobal[tabActual];
-
-    if (tabActual === "INTL") {
-        mapaPeru.classList.replace("opacity-100", "opacity-0");
-        mapaPeru.classList.add("pointer-events-none", "z-0");
-        mapaMundo.classList.replace("opacity-0", "opacity-100");
-        mapaMundo.classList.remove("pointer-events-none");
-        mapaMundo.classList.add("z-10");
-
-        const paisesConData = {};
-        datasetActual.forEach(c => paisesConData[normalizarNombre(c.pais)] = true);
-        
-        document.querySelectorAll('#mapa-mundo svg path').forEach(p => {
-            const id = normalizarNombre(p.getAttribute('id') || p.getAttribute('name'));
-            p.style.fill = "";
-            if (filtro1Activo && id === filtro1Activo) p.style.fill = "#00B4CE"; 
-            else if (paisesConData[id]) p.style.fill = "#B4BD10"; 
-            else p.style.fill = "#E2E8F0"; 
-        });
-
-    } else {
-        mapaMundo.classList.replace("opacity-100", "opacity-0");
-        mapaMundo.classList.add("pointer-events-none", "z-0");
-        mapaPeru.classList.replace("opacity-0", "opacity-100");
-        mapaPeru.classList.remove("pointer-events-none");
-        mapaPeru.classList.add("z-10");
-
-        const conteoRegiones = datasetActual.filter(c => normalizarNombre(c.pais) === "PERU").reduce((acc, c) => {
-            acc[normalizarNombre(c.region)] = true; return acc;
-        }, {});
-
-        document.querySelectorAll('#mapa-peru svg path').forEach(p => {
-            const id = normalizarNombre(p.getAttribute('id') || p.getAttribute('name'));
-            p.style.fill = ""; 
-            if (filtro1Activo && id === filtro1Activo) p.style.fill = "#00B4CE"; 
-            else if (conteoRegiones[id]) p.style.fill = "#B4BD10"; 
-            else p.style.fill = "#E2E8F0"; 
-        });
-    }
 }
 
 function actualizarEstadisticasBottom() {
@@ -436,16 +367,6 @@ function actualizarEstadisticasBottom() {
                 <div class="space-y-1">
                     <span class="text-md font-black text-slate-800 block">🔬 ${total} CCYT Participantes</span>
                     <p class="text-xs md:text-sm font-medium text-slate-500">Clubes de Ciencia y Tecnología de las diferentes regiones del Perú</p>
-                </div>
-            </div>`;
-    }
-    else if (tabActual === "INTL") {
-        const cantPaises = [...new Set(data.map(c => normalizarNombre(c.pais)))].length;
-        contenedor.innerHTML = `
-            <div class="bg-white p-4 rounded-2xl shadow-sm border-l-4 border-brand flex items-center justify-between gap-4">
-                <div class="space-y-1">
-                    <span class="text-md font-black text-slate-800 block">🌍 ${total} Proyectos Internacionales</span>
-                    <p class="text-xs md:text-sm font-medium text-slate-500">Delegaciones invitadas representando a ${cantPaises} países extranjeros.</p>
                 </div>
             </div>`;
     }
