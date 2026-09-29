@@ -6,9 +6,24 @@
     <title>Concurso de Monólogos Científicos para CCYT | CONCYTEC</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     
-    <link rel="stylesheet" href="style.css">
+    <!-- Configuración de Tailwind movida al Head para que reconozca los colores -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: '#F79131',   // Naranja
+                        dark: '#7A2C8E',    // Morado
+                        accent: '#4DB748',  // Verde claro
+                    }
+                }
+            }
+        };
+    </script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="pagina8.css">
 </head>
 <body class="bg-slate-50 text-slate-900 font-sans">
 
@@ -52,27 +67,15 @@
             <p class="text-3xl md:text-4xl mb-2 max-w-3xl mx-auto font-extrabold">para Clubes de Ciencia y Tecnología</p>
             <p class="text-3xl md:text-4xl mb-6 max-w-3xl mx-auto">Chiclayo 2026</p>
             
-            <!-- <div class="text-2xl flex flex-wrap justify-center gap-4 mb-8">
-                <a href="#finalistas" class="bg-accent hover:opacity-70 text-white font-bold px-8 py-3 rounded-full transition">&nbsp; FINALISTAS &nbsp;</a>
-            </div> -->
-            
             <div class="mt-8 flex flex-wrap justify-center gap-3 md:gap-4 w-full">
-                <!-- <a href="https://sites.google.com/concytec.gob.pe/pop/eiccyt/monologos" target="_blank" class="w-full sm:w-auto border-2 border-white/80 bg-white/10 backdrop-blur-sm px-6 py-3 rounded-xl font-bold hover:bg-white hover:text-slate-900 hover:scale-105 transition-all duration-300 shadow-lg">
-                    🎭 Concurso de monólogos
-                </a> -->
                 <a href="#finalistas" class="text-xl w-full sm:w-auto border-2 border-accent bg-accent px-6 py-3 rounded-xl font-bold text-white hover:bg-accent/80 hover:border-accent/80 hover:scale-105 transition-all duration-300 shadow-lg shadow-accent/30">
                     FINALISTAS
                 </a>
-                <!-- <a href="https://forms.gle/Jagw4j2ENNtJgktn9" target="_blank" class="w-full sm:w-auto border-2 border-white/80 bg-white/10 backdrop-blur-sm px-6 py-3 rounded-xl font-bold hover:bg-white hover:text-slate-900 hover:scale-105 transition-all duration-300 shadow-lg">
-                    📝 Memoria del encuentro
-                </a> -->
             </div>
-
         </div>
     </header>
 
     <nav class="sub-nav sticky top-0 z-50 flex flex-wrap justify-center gap-0 md:gap-4 bg-slate-50 border-b border-slate-200 py-0 md:py-1 px-4 shadow-sm backdrop-blur-md bg-slate-50/90">
-        <!-- <a href="#finalistas" class="text-xs md:text-sm font-bold text-slate-600 hover:text-brand transition-colors px-2 py-1">Finalistas</a> -->
         <a href="#presentacion" class="text-xs md:text-sm font-bold text-slate-600 hover:text-brand transition-colors px-2 py-1">Acerca del concurso</a>
         <a href="#bases" class="text-xs md:text-sm font-bold text-slate-600 hover:text-brand transition-colors px-2 py-1">¿Cómo participar?</a>
         <a href="#cronograma" class="text-xs md:text-sm font-bold text-slate-600 hover:text-brand transition-colors px-2 py-1">Cronograma</a>
@@ -83,7 +86,6 @@
     <!-- -------------
     FINALISTAS
     ------------- -->
-
     
     <section id="finalistas" class="py-24 md:py-16 bg-slate-100">
         <div class="container mx-auto max-w-6xl px-4 lg:px-8">
@@ -120,7 +122,6 @@
                 </div>
             </div>
         
-            
             <div class="mt-8 flex flex-col sm:flex-row justify-center gap-4 mb-2">
                 <a href="https://drive.google.com/file/d/1ZLPlSnbytXZBiC5w-grY-ZD8tE5CDnYM/view" target="_blank" class="flex items-center justify-center gap-2 px-6 py-2.5 bg-brand text-white font-semibold rounded-lg shadow-md hover:opacity-90 transition-all text-sm">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -140,22 +141,18 @@
         </div>
     </section>
 
-
     <!-- ---------------
     PRESENTACION
     --------------- -->
 
-
     <section id="presentacion" class="py-24 md:py-16 bg-slate-50">
         <div class="container mx-auto max-w-6xl px-6 lg:px-8">
-            
             <div class="flex flex-col items-center mb-12">
                 <h2 class="text-3xl md:text-4xl font-extrabold text-dark tracking-tight text-center">Acerca del concurso</h2>
                 <div class="w-16 h-1 bg-brand mt-4 rounded-full"></div>
             </div>
 
             <div class="grid md:grid-cols-2 gap-8 lg:gap-12">
-                
                 <div class="bg-white p-8 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border-t-4 border-brand flex flex-col h-full">
                     <div class="flex items-center gap-3 mb-6">
                         <div class="p-3 bg-accent/10 rounded-xl text-accent">
@@ -195,43 +192,27 @@
                         <div class="space-y-4 mt-6">
                             <div class="group relative flex items-start gap-4 p-5 rounded-xl bg-white border border-slate-100 shadow-sm hover:shadow-md hover:border-brand/30 transition-all duration-300 overflow-hidden">
                                 <div class="absolute left-0 top-0 bottom-0 w-1 bg-brand transition-all duration-300 group-hover:w-1.5"></div>
-                                
-                                <div class="flex-shrink-0 w-10 h-10 rounded-full bg-brand/10 text-brand flex items-center justify-center font-bold text-lg shadow-inner ring-1 ring-brand/20">
-                                    A
-                                </div>
-                                
+                                <div class="flex-shrink-0 w-10 h-10 rounded-full bg-brand/10 text-brand flex items-center justify-center font-bold text-lg shadow-inner ring-1 ring-brand/20">A</div>
                                 <div class="flex-1">
                                     <h4 class="text-sm font-bold text-slate-800 mb-1 uppercase tracking-wide">Modalidad A</h4>
-                                    <p class="text-sm text-slate-600 leading-relaxed">
-                                        Estudiantes de clubes de ciencia y tecnología de instituciones educativas <span class="font-medium text-slate-800">inscritos en el II Encuentro Internacional y II Encuentro Nacional</span> de Clubes de Ciencia y Tecnología Huánuco 2026.
-                                    </p>
+                                    <p class="text-sm text-slate-600 leading-relaxed">Estudiantes de clubes de ciencia y tecnología de instituciones educativas <span class="font-medium text-slate-800">inscritos en el II Encuentro Internacional y II Encuentro Nacional</span> de Clubes de Ciencia y Tecnología Huánuco 2026.</p>
                                 </div>
                             </div>
                             
                             <div class="group relative flex items-start gap-4 p-5 rounded-xl bg-white border border-slate-100 shadow-sm hover:shadow-md hover:border-brand/30 transition-all duration-300 overflow-hidden">
                                 <div class="absolute left-0 top-0 bottom-0 w-1 bg-brand transition-all duration-300 group-hover:w-1.5"></div>
-                                
-                                <div class="flex-shrink-0 w-10 h-10 rounded-full bg-brand/10 text-brand flex items-center justify-center font-bold text-lg shadow-inner ring-1 ring-brand/20">
-                                    B
-                                </div>
-                                
+                                <div class="flex-shrink-0 w-10 h-10 rounded-full bg-brand/10 text-brand flex items-center justify-center font-bold text-lg shadow-inner ring-1 ring-brand/20">B</div>
                                 <div class="flex-1">
                                     <h4 class="text-sm font-bold text-slate-800 mb-1 uppercase tracking-wide">Modalidad B</h4>
-                                    <p class="text-sm text-slate-600 leading-relaxed">
-                                        Estudiantes de clubes de ciencia y tecnología de instituciones educativas de la <span class="font-medium text-slate-800">región Huánuco</span>.
-                                    </p>
+                                    <p class="text-sm text-slate-600 leading-relaxed">Estudiantes de clubes de ciencia y tecnología de instituciones educativas de la <span class="font-medium text-slate-800">región Huánuco</span>.</p>
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
-                
             </div>
         </div>
     </section>
-
 
     <!-- --------------------------
     COMO PARTICIPAR
@@ -239,14 +220,12 @@
 
     <section id="bases" class="py-24 md:py-16 bg-slate-100">
         <div class="container mx-auto max-w-6xl px-6 lg:px-8">
-            
             <div class="flex flex-col items-center mb-12">
                 <h2 class="text-3xl md:text-4xl font-extrabold text-dark tracking-tight text-center">¿Cómo participar?</h2>
                 <div class="w-16 h-1 bg-brand mt-4 rounded-full"></div>
             </div>
             
             <div class="grid md:grid-cols-3 gap-8">
-                
                 <div class="bg-white p-8 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border-t-4 border-brand flex flex-col h-full">
                     <div class="w-14 h-14 bg-accent/10 rounded-2xl flex items-center justify-center text-accent mb-6">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -313,12 +292,9 @@
                         </span>
                     </div>
                 </div>
-                
             </div>
         </div>
     </section>
-
-
 
     <!-- --------------------
     CRONOGRAMA 
@@ -326,7 +302,6 @@
 
     <section id="cronograma" class="py-24 md:py-16 bg-slate-50">
         <div class="container mx-auto max-w-6xl px-6 lg:px-8">
-            
             <div class="flex flex-col items-center mb-12">
                 <h2 class="text-3xl md:text-4xl font-extrabold text-dark tracking-tight text-center">Cronograma</h2>
                 <div class="w-16 h-1 bg-brand mt-4 rounded-full"></div>
@@ -335,7 +310,6 @@
             <div class="bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border-t-4 border-brand overflow-hidden">
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse min-w-[600px]">
-                        
                         <thead class="bg-dark text-white">
                             <tr>
                                 <th class="py-4 px-6 font-bold uppercase tracking-wider text-xs w-48">Etapa</th>
@@ -381,13 +355,11 @@
                                 <td class="py-6 px-6 text-accent font-bold whitespace-nowrap">Miércoles 19 de agosto de 2026</td>
                             </tr>
                         </tbody>
-                        
                     </table>
                 </div>
             </div>
         </div>
     </section>
-
 
     <!-- --------------------
     GALERIA DE VIDEOS
@@ -395,14 +367,12 @@
 
     <section id="videos" class="py-24 md:py-16 bg-slate-100">
         <div class="container mx-auto px-6 lg:px-8 max-w-6xl">
-            
             <div class="flex flex-col items-center mb-12">
                 <h2 class="text-3xl md:text-4xl font-extrabold text-dark tracking-tight text-center">Galería de videos</h2>
                 <div class="w-16 h-1 bg-brand mt-4 rounded-full"></div>
             </div>
 
             <div class="relative group">
-                
                 <button id="btn-prev-video" class="absolute -left-4 md:-left-6 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white rounded-full shadow-lg border border-slate-100 flex items-center justify-center text-brand hover:bg-brand hover:text-white transition-all duration-300 opacity-0 group-hover:opacity-100 hidden md:flex cursor-pointer">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
@@ -418,7 +388,6 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
                     </svg>
                 </button>
-                
             </div>
         </div>
         
@@ -428,21 +397,18 @@
         </style>
     </section>
 
-
     <!-- ---------------------
     INSTITUCIONES
     --------------------- -->
     
     <section class="py-16 bg-white">
         <div class="container mx-auto px-6 lg:px-8 text-center max-w-6xl">
-            
             <div class="flex flex-col items-center mb-12">
                 <h2 class="text-3xl md:text-4xl font-extrabold text-dark tracking-tight text-center">Instituciones Organizadoras</h2>
                 <div class="w-16 h-1 bg-brand mt-4 rounded-full"></div>
             </div>
 
             <div class="flex flex-wrap justify-center items-center gap-12 md:gap-20 mb-16">
-                
                 <div class="group cursor-pointer">
                     <img src="assets/logos/logo-concytec.png" 
                         alt="Concytec" 
@@ -454,26 +420,20 @@
                         alt="Banco Interamericano de Desarrollo" 
                         class="imagen-circular h-16 w-16 md:h-20 md:w-20 object-contain opacity-60 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500 transform group-hover:scale-110">
                 </div>
-                
             </div>
             
             <div class="relative p-8 md:p-12 bg-slate-50 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 max-w-4xl mx-auto overflow-hidden">
-                
                 <div class="absolute top-6 left-1/2 -translate-x-1/2 text-brand/20">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
                     </svg>
                 </div>
-
                 <p class="text-slate-700 italic text-lg md:text-xl font-medium leading-relaxed relative z-10 mt-8">
                     "Promoviendo el intercambio de experiencias de educación no formal para potenciar las vocaciones científicas y la cultura de indagación desde la educación básica."
                 </p>
-                
             </div>
-            
         </div>
     </section>
-    
 
     <!-- --------------------------
     PIE DE PAGINA
@@ -481,15 +441,10 @@
 
     <footer class="bg-dark text-white pt-16">
         <div class="container mx-auto max-w-7xl px-6 lg:px-8">
-            
             <div class="grid grid-cols-1 md:grid-cols-3 gap-12 pb-12 border-b border-white/10">
-                
                 <div class="flex flex-col items-start">
                     <img src="assets/logos/logo-concytec-horizontal.png" alt="Concytec" class="h-20 mb-6 brightness-0 invert opacity-90">
                     <h3 class="text-brand font-extrabold text-2xl mb-3 tracking-wide">Concurso de Monólogos científicos para Clubes de Ciencia y Tecnología</h3>
-                    <!-- <p class="text-slate-300 text-sm leading-relaxed pr-4">
-                        Espacio de encuentro y desarrollo de habilidades para miembros de clubes de ciencia y tecnología.
-                    </p> -->
                 </div>
 
                 <div>
@@ -500,7 +455,6 @@
                         <li><a href="https://sites.google.com/concytec.gob.pe/pop/SdC-Peru" target="_blank" class="text-slate-300 hover:text-brand transition-colors text-sm flex items-center gap-2"><span class="text-brand text-xs">▸</span> Solo de Ciencia Perú</a></li>
                         <li><a href="https://sites.google.com/concytec.gob.pe/pop/febicyt" target="_blank" class="text-slate-300 hover:text-brand transition-colors text-sm flex items-center gap-2"><span class="text-brand text-xs">▸</span> Feria Escolar Binacional Perú Ecuador</a></li>
                         <li><a href="https://sites.google.com/concytec.gob.pe/pop/agenda-popcti" target="_blank" class="text-slate-300 hover:text-brand transition-colors text-sm flex items-center gap-2"><span class="text-brand text-xs">▸</span> Agenda PopCTI</a></li>
-
                     </ul>
                 </div>
 
@@ -537,19 +491,9 @@
                     </div>
                 </div>
             </div> 
-
-            <!-- <div class="py-6 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
-                <p class="text-slate-500 text-xs font-medium">
-                    © 2026 Consejo Nacional de Ciencia, Tecnología e Innovación (Concytec). Todos los derechos reservados.
-                </p>
-                <p class="text-slate-500 text-xs font-medium">
-                    Sitio oficial de la XXII edición FEBICYT
-                </p>
-            </div> -->
-
         </div> 
     </footer>
 
-    <script src="script.js"></script>
+    <script src="pagina8.js"></script>
 </body>
 </html>

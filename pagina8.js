@@ -1,26 +1,17 @@
-// 1. Configuración de Temas de Tailwind CSS
-tailwind.config = {
-    theme: {
-        extend: {
-            colors: {
-                brand: '#F79131',   // Naranja
-                dark: '#7A2C8E',    // Morado
-                accent: '#4DB748',  // Verde claro
-            }
-        }
-    }
-};
-
-// 2. Cuenta Regresiva (Timer)
+// 1. Cuenta Regresiva (Timer) con validación de seguridad
 const targetDate = new Date("June 14, 2026 23:59:59").getTime();
 
 const countdownInterval = setInterval(() => {
+    // Verificamos si el elemento existe en el HTML antes de hacer algo
+    const countdownElement = document.getElementById("countdown");
+    if (!countdownElement) return; // Si está comentado en el HTML, el JS se detiene aquí pacíficamente
+
     const now = new Date().getTime();
     const diff = targetDate - now;
 
     if (diff <= 0) {
         clearInterval(countdownInterval);
-        document.getElementById("countdown").innerHTML = "<span class='text-sm uppercase font-sans'>¡Inscripciones Cerradas!</span>";
+        countdownElement.innerHTML = "<span class='text-sm uppercase font-sans'>¡Inscripciones Cerradas!</span>";
         return;
     }
 
@@ -40,7 +31,6 @@ const countdownInterval = setInterval(() => {
 // ---------
 // FINALISTAS
 // ----------
-
 
 document.addEventListener('DOMContentLoaded', async () => {
     // ⚠️ REEMPLAZA ESTA URL CON EL ENLACE DE TU GOOGLE SHEET PUBLICADO COMO CSV
