@@ -283,65 +283,68 @@
     --------------------  -->
 
     <section id="cronograma" class="py-24 md:py-16 bg-slate-50">
-        <div class="container mx-auto max-w-6xl px-6 lg:px-8">
-            <div class="flex flex-col items-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-extrabold text-dark tracking-tight text-center">Cronograma</h2>
-                <div class="w-16 h-1 bg-brand mt-4 rounded-full"></div>
-            </div>
+            <div class="container mx-auto max-w-6xl px-6 lg:px-8">
+                <div class="flex flex-col items-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-dark tracking-tight text-center">Cronograma</h2>
+                    <div class="w-16 h-1 bg-brand mt-4 rounded-full"></div>
+                </div>
 
-            <div class="bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border-t-4 border-brand overflow-hidden">
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse min-w-[600px]">
-                        <thead class="bg-dark text-white">
-                            <tr>
-                                <th class="py-4 px-6 font-bold uppercase tracking-wider text-xs w-48">Etapa</th>
-                                <th class="py-4 px-6 font-bold uppercase tracking-wider text-xs">Hitos</th>
-                                <th class="py-4 px-6 font-bold uppercase tracking-wider text-xs w-64">Fecha</th>
-                            </tr>
-                        </thead>
-                        
-                        <tbody class="divide-y divide-slate-100 text-sm">
-                            <tr class="hover:bg-slate-50 transition-colors">
-                                <td rowspan="3" class="py-5 px-6 border-b border-slate-100 align-top bg-slate-50/30">
-                                    <div class="font-bold text-dark text-base">Etapa 1</div>
-                                    <div class="text-slate-500 font-semibold text-[11px] uppercase tracking-wider mt-1">Inscripción</div>
-                                </td>
-                                <td class="py-4 px-6 text-slate-600">Invitación a participar vía correo electrónico a los docentes asesores.</td>
-                                <td class="py-4 px-6 text-slate-500 whitespace-nowrap">Miércoles 2 y jueves 3 de setiembre del 2026</td>
-                            </tr>
-                            <tr class="hover:bg-slate-50 transition-colors">
-                                <td class="py-4 px-6 text-slate-600">Taller de capacitación (virtual)</td>
-                                <td class="py-4 px-6 text-slate-500 whitespace-nowrap">Miércoles 16 de setiembre del 2026</td>
-                            </tr>
-                            <tr class="hover:bg-slate-50 transition-colors">
-                                <td class="py-4 px-6 text-slate-600 border-b border-slate-100">Fecha límite para envío del monólogo en video</td>
-                                <td class="py-4 px-6 text-slate-500 whitespace-nowrap border-b border-slate-100">Domingo 11 de octubre del 2026</td>
-                            </tr>
+                <div class="bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border-t-4 border-brand overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse min-w-[600px]">
+                            <thead class="bg-dark text-white">
+                                <tr>
+                                    <th class="py-4 px-6 font-bold uppercase tracking-wider text-xs w-48">Etapa</th>
+                                    <th class="py-4 px-6 font-bold uppercase tracking-wider text-xs">Hitos</th>
+                                    <th class="py-4 px-6 font-bold uppercase tracking-wider text-xs w-64">Fecha</th>
+                                </tr>
+                            </thead>
+                            
+                            <tbody class="divide-y divide-slate-100 text-sm">
+                                <!-- ETAPA 1 (AHORA RESALTADA) -->
+                                <tr class="bg-accent/5 hover:bg-accent/10 transition-colors">
+                                    <td rowspan="3" class="py-6 px-6 align-top relative border-b border-slate-100">
+                                        <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-accent"></div>
+                                        <div class="font-bold text-dark text-base">Etapa 1</div>
+                                        <div class="text-accent font-extrabold text-[11px] uppercase tracking-wider mt-1">Inscripción</div>
+                                    </td>
+                                    <td class="py-4 px-6 text-dark font-medium border-b border-accent/10">Invitación a participar vía correo electrónico a los docentes asesores.</td>
+                                    <td class="py-4 px-6 text-accent font-bold whitespace-nowrap border-b border-accent/10">Miércoles 2 y jueves 3 de setiembre del 2026</td>
+                                </tr>
+                                <tr class="bg-accent/5 hover:bg-accent/10 transition-colors">
+                                    <td class="py-4 px-6 text-dark font-medium border-b border-accent/10">Taller de capacitación (virtual)</td>
+                                    <td class="py-4 px-6 text-accent font-bold whitespace-nowrap border-b border-accent/10">Miércoles 16 de setiembre del 2026</td>
+                                </tr>
+                                <tr class="bg-accent/5 hover:bg-accent/10 transition-colors">
+                                    <td class="py-4 px-6 text-dark font-medium border-b border-slate-100">Fecha límite para envío del monólogo en video</td>
+                                    <td class="py-4 px-6 text-accent font-bold whitespace-nowrap border-b border-slate-100">Domingo 11 de octubre del 2026</td>
+                                </tr>
 
-                            <tr class="hover:bg-slate-50 transition-colors">
-                                <td class="py-5 px-6 border-b border-slate-100 align-top bg-slate-50/30">
-                                    <div class="font-bold text-dark text-base">Etapa 2</div>
-                                    <div class="text-slate-500 font-semibold text-[11px] uppercase tracking-wider mt-1">Selección</div>
-                                </td>
-                                <td class="py-5 px-6 text-slate-600 border-b border-slate-100">Publicación de finalistas</td>
-                                <td class="py-5 px-6 text-slate-500 whitespace-nowrap border-b border-slate-100">Miércoles 14 de octubre del 2026</td>
-                            </tr>
+                                <!-- ETAPA 2 (NORMAL) -->
+                                <tr class="hover:bg-slate-50 transition-colors">
+                                    <td class="py-5 px-6 border-b border-slate-100 align-top bg-slate-50/30">
+                                        <div class="font-bold text-dark text-base">Etapa 2</div>
+                                        <div class="text-slate-500 font-semibold text-[11px] uppercase tracking-wider mt-1">Selección</div>
+                                    </td>
+                                    <td class="py-5 px-6 text-slate-600 border-b border-slate-100">Publicación de finalistas</td>
+                                    <td class="py-5 px-6 text-slate-500 whitespace-nowrap border-b border-slate-100">Miércoles 14 de octubre del 2026</td>
+                                </tr>
 
-                            <tr class="bg-accent/5 hover:bg-accent/10 transition-colors">
-                                <td class="py-6 px-6 align-top relative">
-                                    <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-accent"></div>
-                                    <div class="font-bold text-dark text-base">Etapa 3</div>
-                                    <div class="text-accent font-extrabold text-[11px] uppercase tracking-wider mt-1">Final</div>
-                                </td>
-                                <td class="py-6 px-6 text-dark font-medium">Final (presencial)</td>
-                                <td class="py-6 px-6 text-accent font-bold whitespace-nowrap">Sábado 31 de octubre del 2026</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                                <!-- ETAPA 3 (AHORA NORMAL) -->
+                                <tr class="hover:bg-slate-50 transition-colors">
+                                    <td class="py-5 px-6 align-top bg-slate-50/30">
+                                        <div class="font-bold text-dark text-base">Etapa 3</div>
+                                        <div class="text-slate-500 font-semibold text-[11px] uppercase tracking-wider mt-1">Final</div>
+                                    </td>
+                                    <td class="py-5 px-6 text-slate-600">Final (presencial)</td>
+                                    <td class="py-5 px-6 text-slate-500 whitespace-nowrap">Sábado 31 de octubre del 2026</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
     <!-- --------------------
     GALERIA DE VIDEOS
