@@ -59,6 +59,11 @@
     FINALISTAS
     ------------- -->
     
+    <script>
+        const mostrarFinalistas = false; // <-- ¡CAMBIA ESTO A true PARA MOSTRAR LA TABLA!
+    </script>
+    <!-- =================================================================== -->
+
     <section id="finalistas" class="py-24 md:py-16 bg-slate-100">
         <div class="container mx-auto max-w-6xl px-4 lg:px-8">
             
@@ -68,50 +73,76 @@
                 <p class="text-slate-500 mt-4 text-center max-w-2xl text-sm md:text-base">Lista oficial de los 8 estudiantes clasificados para la presentación de monólogos científicos.</p>
             </div>
 
-            <div class="bg-white rounded-xl shadow-lg border-t-4 border-brand overflow-hidden">
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse min-w-[800px]">
-                        <thead class="bg-dark text-white">
-                            <tr>
-                                <th class="py-3 px-4 font-bold uppercase tracking-wider text-xs w-24">Región</th>
-                                <th class="py-3 px-4 font-bold uppercase tracking-wider text-xs">Institución Educativa</th>
-                                <th class="py-3 px-4 font-bold uppercase tracking-wider text-xs">Club de Ciencia y Tecnología</th>
-                                <th class="py-3 px-4 font-bold uppercase tracking-wider text-xs">Nombres y Apellidos</th>
-                                <th class="py-3 px-4 font-bold uppercase tracking-wider text-xs text-center">Grado de Estudios</th>
-                                <th class="py-3 px-4 font-bold uppercase tracking-wider text-xs w-1/5">Título del Monólogo</th>
-                                <th class="py-3 px-4 font-bold uppercase tracking-wider text-xs text-center">Clasificación</th>
-                            </tr>
-                        </thead>
-                        
-                        <tbody id="tabla-participantes" class="divide-y divide-slate-100">
-                            <tr>
-                                <td colspan="7" class="py-6 px-4 text-center text-slate-500 text-sm font-medium">
-                                    <span class="animate-pulse">Cargando datos desde Google Sheets...</span>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+            <!-- CONTENEDOR: MENSJE DE "PRÓXIMAMENTE" (Se muestra si mostrarFinalistas es false) -->
+            <div id="mensaje-espera-finalistas" class="bg-white rounded-xl shadow-lg border-t-4 border-slate-300 p-12 text-center mt-8">
+                <div class="text-4xl mb-4">⏳</div>
+                <h3 class="text-xl font-bold text-dark mb-2">Resultados en proceso</h3>
+                <p class="text-slate-600">La lista oficial de finalistas será publicada el <b class="text-brand">miércoles 14 de octubre</b>.</p>
             </div>
-        
-            <div class="mt-8 flex flex-col sm:flex-row justify-center gap-4 mb-2">
-                <a href="https://drive.google.com/file/d/1ZLPlSnbytXZBiC5w-grY-ZD8tE5CDnYM/view" target="_blank" class="flex items-center justify-center gap-2 px-6 py-2.5 bg-brand text-white font-semibold rounded-lg shadow-md hover:opacity-90 transition-all text-sm">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                    </svg>
-                    Descargar Finalistas
-                </a>
 
-                <a href="https://drive.google.com/file/d/1j0AECjN-QFAZ8kifxzvPzInZLhnV7VQm/view" target="_blank" class="flex items-center justify-center gap-2 px-6 py-2.5 bg-slate-800 text-white font-semibold rounded-lg shadow-md hover:bg-slate-700 transition-all text-sm">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                    </svg>
-                    Descargar Acta de Jurado
-                </a>
+            <!-- CONTENEDOR: TABLA Y BOTONES (Se muestra si mostrarFinalistas es true) -->
+            <div id="contenido-finalistas" class="hidden">
+                <div class="bg-white rounded-xl shadow-lg border-t-4 border-brand overflow-hidden mt-8">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse min-w-[800px]">
+                            <thead class="bg-dark text-white">
+                                <tr>
+                                    <th class="py-3 px-4 font-bold uppercase tracking-wider text-xs w-24">Región</th>
+                                    <th class="py-3 px-4 font-bold uppercase tracking-wider text-xs">Institución Educativa</th>
+                                    <th class="py-3 px-4 font-bold uppercase tracking-wider text-xs">Club de Ciencia y Tecnología</th>
+                                    <th class="py-3 px-4 font-bold uppercase tracking-wider text-xs">Nombres y Apellidos</th>
+                                    <th class="py-3 px-4 font-bold uppercase tracking-wider text-xs text-center">Grado de Estudios</th>
+                                    <th class="py-3 px-4 font-bold uppercase tracking-wider text-xs w-1/5">Título del Monólogo</th>
+                                    <th class="py-3 px-4 font-bold uppercase tracking-wider text-xs text-center">Clasificación</th>
+                                </tr>
+                            </thead>
+                            
+                            <tbody id="tabla-participantes" class="divide-y divide-slate-100">
+                                <tr>
+                                    <td colspan="7" class="py-6 px-4 text-center text-slate-500 text-sm font-medium">
+                                        <span class="animate-pulse">Cargando datos desde Google Sheets...</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            
+                <div class="mt-8 flex flex-col sm:flex-row justify-center gap-4 mb-2">
+                    <a href="https://drive.google.com/file/d/1ZLPlSnbytXZBiC5w-grY-ZD8tE5CDnYM/view" target="_blank" class="flex items-center justify-center gap-2 px-6 py-2.5 bg-brand text-white font-semibold rounded-lg shadow-md hover:opacity-90 transition-all text-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                        </svg>
+                        Descargar Finalistas
+                    </a>
+
+                    <a href="https://drive.google.com/file/d/1j0AECjN-QFAZ8kifxzvPzInZLhnV7VQm/view" target="_blank" class="flex items-center justify-center gap-2 px-6 py-2.5 bg-slate-800 text-white font-semibold rounded-lg shadow-md hover:bg-slate-700 transition-all text-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        Descargar Acta de Jurado
+                    </a>
+                </div>
             </div>
 
         </div>
     </section>
+
+    <!-- Script lógico para alternar la vista -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const msjEspera = document.getElementById('mensaje-espera-finalistas');
+            const contFinalistas = document.getElementById('contenido-finalistas');
+
+            if (mostrarFinalistas) {
+                msjEspera.classList.add('hidden');
+                contFinalistas.classList.remove('hidden');
+            } else {
+                msjEspera.classList.remove('hidden');
+                contFinalistas.classList.add('hidden');
+            }
+        });
+    </script>
 
     <!-- ---------------
     PRESENTACION
@@ -219,29 +250,21 @@
                     </div>
                 </div>
                 
-                <div class="bg-slate-50/50 p-8 rounded-2xl shadow-sm border-t-4 border-slate-300 flex flex-col h-full relative overflow-hidden">
-                    <div class="w-14 h-14 bg-accent/10 rounded-2xl flex items-center justify-center text-accent mb-6 opacity-70">
+                <div class="bg-white p-8 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border-t-4 border-brand flex flex-col h-full">
+                    <div class="w-14 h-14 bg-accent/10 rounded-2xl flex items-center justify-center text-accent mb-6">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
                         </svg>
                     </div>
                     
-                    <h3 class="text-xl font-bold text-dark mb-3 opacity-70">Postulación</h3>
+                    <h3 class="text-xl font-bold text-dark mb-3">Postulación</h3>
+                    <p class="text-slate-600 text-sm md:text-base leading-relaxed mb-6">El periodo de inscripción se encuentra abierto. Registra a tu Club de Ciencia y Tecnología y participa del concurso.</p>
                     
-                    <div class="mb-6">
-                        <span class="inline-flex items-center gap-1 px-3 py-1 bg-red-100 text-red-600 font-bold text-[11px] uppercase tracking-wide rounded-full mb-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
-                            </svg>
-                            Cerrado
-                        </span>
-                        <p class="text-slate-500 text-sm md:text-base leading-relaxed">El periodo de inscripción para esta edición ha finalizado. Agradecemos a todos los docentes y clubes por su participación.</p>
-                    </div>
-                    
-                    <div class="mt-auto pt-4 border-t border-slate-200">
-                        <span class="inline-flex items-center gap-2 text-slate-400 font-medium cursor-not-allowed">
-                            Formulario no disponible
-                        </span>
+                    <div class="mt-auto pt-4 border-t border-slate-100">
+                        <a href="https://forms.gle/zAo4JoPUGTT6t9My7" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-brand font-bold hover:text-brand/80 transition-colors group">
+                            Enviar información
+                            <span class="transform transition-transform group-hover:translate-x-1">→</span>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -273,7 +296,7 @@
                         <tbody class="divide-y divide-slate-100 text-sm">
                             <!-- ETAPA 1 (AHORA RESALTADA) -->
                             <tr class="bg-accent/5 hover:bg-accent/10 transition-colors">
-                                <td rowspan="3" class="py-6 px-6 align-top relative border-b border-slate-100">
+                                <td rowspan="3" class="py-6 px-6 align-middle relative border-b border-slate-100">
                                     <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-accent"></div>
                                     <div class="font-bold text-dark text-base">Etapa 1</div>
                                     <div class="text-accent font-extrabold text-[11px] uppercase tracking-wider mt-1">Inscripción</div>
@@ -364,11 +387,12 @@
             </div>
 
             <div class="flex justify-center items-center mb-16">
-                <div class="group cursor-pointer">
+                <!-- Cambiamos el div por una etiqueta "a" y añadimos el enlace -->
+                <a href="https://www.gob.pe/concytec" target="_blank" rel="noopener noreferrer" class="group cursor-pointer block focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-4 rounded-lg">
                     <img src="assets/logos/logo-concytec.png" 
                         alt="Concytec" 
-                        class="h-16 md:h-20 object-contain opacity-60 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500 transform group-hover:scale-110">
-                </div>
+                        class="h-24 md:h-32 object-contain opacity-60 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500 transform group-hover:scale-110">
+                </a>
             </div>
             
             <div class="relative p-8 md:p-12 bg-slate-50 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 max-w-4xl mx-auto overflow-hidden">

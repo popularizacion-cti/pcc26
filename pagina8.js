@@ -34,7 +34,8 @@ const countdownInterval = setInterval(() => {
 
 document.addEventListener('DOMContentLoaded', async () => {
     // ⚠️ REEMPLAZA ESTA URL CON EL ENLACE DE TU GOOGLE SHEET PUBLICADO COMO CSV
-    const sheetCSVUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRm8pZY0HkmM-i6o3UtwLrRLoE4fwRUQOjE9DIpZlzG67v2ywIjNChBogXEtenPxKPspCl_LCoJEFOP/pub?output=csv';
+    // https://docs.google.com/spreadsheets/d/1ynuQTaHvw0XDE_3ZLJ16nNV0uE0nWUjjvy-OLmOWqFM/edit?gid=1672089889#gid=1672089889
+    const sheetCSVUrl = 'https://docs.google.com/spreadsheets/d/1ynuQTaHvw0XDE_3ZLJ16nNV0uE0nWUjjvy-OLmOWqFM/export?format=csv&gid=1672089889';
     
     const tbody = document.getElementById('tabla-participantes');
 
