@@ -1,6 +1,7 @@
 // ================================
 // MÓDULO: PARTICIPANTES Y PLANO INTERACTIVO
 // ================================
+// https://docs.google.com/spreadsheets/d/15hQVhxcA40ab78kdMh4yIv8QYi4nHuANkbnEISdJBg8/edit?gid=0#gid=0
 
 const SHEET_ID = "15hQVhxcA40ab78kdMh4yIv8QYi4nHuANkbnEISdJBg8"; 
 const URL_PCC = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=PCC`;
