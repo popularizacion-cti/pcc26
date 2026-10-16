@@ -41,11 +41,12 @@ async function inicializarParticipantes() {
                 siglas: r.c[3]?.v || "",
                 tipo: r.c[4]?.v || "",
                 gestion: r.c[5]?.v || "",
-                stand: `PCC-${Math.floor(Math.random() * 10) + 1}`, // SIMULACIÓN DE STAND
+                // LECTURA REAL DE LA COLUMNA O (Índice 14 en JS)
+                stand: r.c[14]?.v ? String(r.c[14].v).trim() : null, 
                 proyectos: []
             };
-            // Leer proyectos desde la columna G (índice 6) en adelante
-            for (let i = 6; i < r.c.length; i++) {
+            // Leer proyectos desde la columna G (índice 6) hasta la N (índice 13)
+            for (let i = 6; i < 14; i++) {
                 if (r.c[i] && r.c[i].v) row.proyectos.push(r.c[i].v);
             }
             return row;
@@ -57,13 +58,14 @@ async function inicializarParticipantes() {
             region: r.c[0]?.v || "",
             dre: r.c[1]?.v || "",
             ugel: r.c[2]?.v || "",
-            gestion: r.c[3]?.v || "", // La columna 3 ahora es gestión
+            gestion: r.c[3]?.v || "", 
             iiee: r.c[4]?.v || "",
-            distrito: r.c[6]?.v || "", // Se ignora la zona (índice 5)
+            distrito: r.c[6]?.v || "", 
             categoria: r.c[7]?.v || "",
             area: r.c[8]?.v || "",
             titulo: r.c[9]?.v || "",
-            stand: `EUR-${Math.floor(Math.random() * 10) + 1}` // SIMULACIÓN DE STAND
+            // LECTURA REAL DE LA COLUMNA O (Índice 14 en JS)
+            stand: r.c[14]?.v ? String(r.c[14].v).trim() : null
         })).filter(c => c.iiee !== "");
 
         // --- DATA CCYT ---
@@ -77,17 +79,18 @@ async function inicializarParticipantes() {
                 gestion: r.c[5]?.v || "",
                 ccyt: r.c[6]?.v || "",
                 nivel: r.c[7]?.v || "",
-                stand: `CYT-${Math.floor(Math.random() * 10) + 1}`, // SIMULACIÓN DE STAND
+                // LECTURA REAL DE LA COLUMNA O (Índice 14 en JS)
+                stand: r.c[14]?.v ? String(r.c[14].v).trim() : null,
                 proyectos: []
             };
-            // Leer proyectos desde la columna I (índice 8) en adelante
-            for (let i = 8; i < r.c.length; i++) {
+            // Leer proyectos desde la columna I (índice 8) hasta la N (índice 13)
+            for (let i = 8; i < 14; i++) {
                 if (r.c[i] && r.c[i].v) row.proyectos.push(r.c[i].v);
             }
             return row;
         }).filter(c => c.ccyt !== "");
 
-        generarPlanoFeriaDinamico();
+        // Inicializar interfaz visual
         configurarInterfaz();
         cambiarTab("PCC"); 
 
@@ -97,51 +100,48 @@ async function inicializarParticipantes() {
 }
 
 // =======================
-// 2. PLANO DE STANDS (LAYOUT)
+// 2. INTERACTIVIDAD DEL MAPA SVG
 // =======================
-function generarPlanoFeriaDinamico() {
-    const contenedor = document.getElementById('plano-feria');
-    if (!contenedor) return;
-
-    let standsHTML = '';
-    
-    // Generar 10 recuadros simulados por cada categoría
-    for(let i = 1; i <= 10; i++) {
-        standsHTML += `<rect id="PCC-${i}" x="${i*35 - 20}" y="20" width="30" height="30" rx="4" class="stand-rect fill-slate-200 stroke-slate-300 stroke-[1.5] transition-all duration-300"/>`;
-        standsHTML += `<text x="${i*35 - 5}" y="38" font-size="8" font-weight="bold" fill="#64748b" text-anchor="middle" class="pointer-events-none">PCC${i}</text>`;
-        
-        standsHTML += `<rect id="EUR-${i}" x="${i*35 - 20}" y="70" width="30" height="30" rx="4" class="stand-rect fill-slate-200 stroke-slate-300 stroke-[1.5] transition-all duration-300"/>`;
-        standsHTML += `<text x="${i*35 - 5}" y="88" font-size="8" font-weight="bold" fill="#64748b" text-anchor="middle" class="pointer-events-none">EUR${i}</text>`;
-        
-        standsHTML += `<rect id="CYT-${i}" x="${i*35 - 20}" y="120" width="30" height="30" rx="4" class="stand-rect fill-slate-200 stroke-slate-300 stroke-[1.5] transition-all duration-300"/>`;
-        standsHTML += `<text x="${i*35 - 5}" y="138" font-size="8" font-weight="bold" fill="#64748b" text-anchor="middle" class="pointer-events-none">CYT${i}</text>`;
+window.resaltarStandEnPlano = function(idStands) {
+    if (!idStands) {
+        console.warn("Esta institución no tiene un ID de stand en el Google Sheets.");
+        return;
     }
 
-    contenedor.innerHTML = `
-        <svg viewBox="0 0 370 170" preserveAspectRatio="xMidYMid meet">
-            <text x="185" y="10" font-size="10" font-weight="bold" fill="#94a3b8" text-anchor="middle">ZONA DE EXPOSICIÓN</text>
-            ${standsHTML}
-        </svg>
-    `;
-}
+    // 1. Apagar TODOS los stands dentro del contenedor visible actual
+    const svgActivo = document.querySelector(`#svg-container-${tabActual} svg`);
+    
+    if (svgActivo) {
+        svgActivo.querySelectorAll('rect, path').forEach(el => {
+            if(el.id && el.id.includes('-')) {
+                el.style.fill = '#e2e8f0'; // slate-200 (Gris claro)
+                el.style.stroke = '#cbd5e1'; // slate-300 (Borde gris)
+                el.style.transition = 'all 0.4s ease';
+                el.classList.remove('animate-pulse');
+            }
+        });
+    }
 
-window.resaltarStandEnPlano = function(idStand) {
-    // Apagar todos los stands
-    document.querySelectorAll('.stand-rect').forEach(el => {
-        el.classList.remove('fill-[#00B4CE]', 'stroke-[#008ba0]', 'animate-pulse');
-        el.classList.add('fill-slate-200', 'stroke-slate-300');
+    // 2. Separar los stands si hay más de uno (ej. "PCC-01, PCC-02")
+    const arrayStands = String(idStands).split(',').map(s => s.trim());
+    let seEncontroAlMenosUno = false;
+
+    // 3. Encender CADA stand de la lista
+    arrayStands.forEach(id => {
+        const standObjetivo = document.getElementById(id);
+        if (standObjetivo) {
+            standObjetivo.style.fill = '#00B4CE'; // Color cyan Concytec
+            standObjetivo.style.stroke = '#008ba0';
+            standObjetivo.classList.add('animate-pulse'); // Animación
+            seEncontroAlMenosUno = true;
+        } else {
+            console.warn(`No se encontró en el SVG un elemento con el ID: ${id}`);
+        }
     });
 
-    // Encender el stand objetivo
-    const standObjetivo = document.getElementById(idStand);
-    if (standObjetivo) {
-        standObjetivo.classList.remove('fill-slate-200', 'stroke-slate-300');
-        standObjetivo.classList.add('fill-[#00B4CE]', 'stroke-[#008ba0]', 'animate-pulse');
-
-        // Scroll automático en móviles para ver el plano
-        if(window.innerWidth < 1024) {
-            document.getElementById('plano-feria').scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
+    // 4. Scroll automático al plano en móviles (solo si encontró algún stand)
+    if (seEncontroAlMenosUno && window.innerWidth < 1024) {
+        document.getElementById('plano-feria').scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 }
 
@@ -170,6 +170,7 @@ function cambiarTab(nuevoTab) {
     tabActual = nuevoTab;
     const datasetActual = dataGlobal[tabActual];
     
+    // A) Actualizar Botones visualmente
     document.querySelectorAll(".tab-btn").forEach(btn => {
         if (btn.getAttribute("data-tab") === tabActual) {
             btn.className = "tab-btn px-3 py-1.5 rounded-lg font-bold text-xs md:text-sm transition-all duration-300 bg-brand text-white shadow-md flex items-center gap-1.5 flex-grow md:flex-grow-0 justify-center";
@@ -178,6 +179,20 @@ function cambiarTab(nuevoTab) {
         }
     });
 
+    // B) Mostrar el mapa SVG correspondiente y ocultar el resto
+    const contenedoresSVG = ['PCC', 'EUREKA', 'CCYT'];
+    contenedoresSVG.forEach(id => {
+        const contenedorSVG = document.getElementById(`svg-container-${id}`);
+        if (contenedorSVG) {
+            if (id === tabActual) {
+                contenedorSVG.classList.remove('hidden');
+            } else {
+                contenedorSVG.classList.add('hidden');
+            }
+        }
+    });
+
+    // C) Actualizar Filtros y Selects
     if (tabActual === "PCC") {
         llenarSelect("filtro1", datasetActual.map(c => c.region), "Todas las Regiones");
         llenarSelect("filtro2", datasetActual.map(c => c.tipo), "Tipos de Institución");
@@ -185,7 +200,7 @@ function cambiarTab(nuevoTab) {
     } 
     else if (tabActual === "EUREKA") {
         llenarSelect("filtro1", datasetActual.map(c => c.region), "Todas las Regiones");
-        llenarSelect("filtro2", datasetActual.map(c => c.gestion), "Tipos de Gestión"); // Cambiado a Gestión
+        llenarSelect("filtro2", datasetActual.map(c => c.gestion), "Tipos de Gestión");
         llenarSelect("filtro3", datasetActual.map(c => c.area), "Todas las Áreas");
     }
     else if (tabActual === "CCYT") {
@@ -216,7 +231,7 @@ function aplicarFiltros() {
         } 
         else if (tabActual === "EUREKA") {
             if (f1 && normalizarNombre(c.region) !== f1) return false;
-            if (f2 && normalizarNombre(c.gestion) !== f2) return false; // Filtra por gestión
+            if (f2 && normalizarNombre(c.gestion) !== f2) return false;
             if (f3 && normalizarNombre(c.area) !== f3) return false;
         }
         else if (tabActual === "CCYT") {
@@ -242,7 +257,7 @@ function renderizarTarjetas() {
     let htmlSalida = "";
     
     dataMostrada.forEach(c => {
-        // Tarjeta clicable para el plano interactivo
+        // Tarjeta clicable
         htmlSalida += `<div onclick="resaltarStandEnPlano('${c.stand}')" class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 hover:border-brand hover:shadow-md transition-all duration-300 flex flex-col justify-between h-full group cursor-pointer">`;
         
         if (tabActual === "PCC") {
