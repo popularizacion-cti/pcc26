@@ -192,6 +192,15 @@ function cambiarTab(nuevoTab) {
         }
     });
 
+    const textoInstruccion = document.getElementById("info-hover-mapa");
+    if (textoInstruccion) {
+        if (tabActual === "PCC") {
+            textoInstruccion.classList.remove("hidden");
+        } else {
+            textoInstruccion.classList.add("hidden");
+        }
+    }
+    
     // C) Actualizar Filtros y Selects
     if (tabActual === "PCC") {
         llenarSelect("filtro1", datasetActual.map(c => c.region), "Todas las Regiones");
@@ -258,7 +267,9 @@ function renderizarTarjetas() {
     
     dataMostrada.forEach(c => {
         // Tarjeta clicable
-        htmlSalida += `<div onclick="resaltarStandEnPlano('${c.stand}')" class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 hover:border-brand hover:shadow-md transition-all duration-300 flex flex-col justify-between h-full group cursor-pointer">`;
+        let eventosClick = tabActual === "PCC" ? `onclick="resaltarStandEnPlano('${c.stand}')"` : "";
+        let clasesHover = tabActual === "PCC" ? "hover:border-brand hover:shadow-md cursor-pointer" : "cursor-default";
+        htmlSalida += `<div ${eventosClick} class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 transition-all duration-300 flex flex-col justify-between h-full group ${clasesHover}">`;        
         
         if (tabActual === "PCC") {
             const badgeTipo = c.tipo ? `<span class="px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider bg-slate-100 text-slate-700">${c.tipo}</span>` : '';
@@ -372,7 +383,7 @@ function actualizarEstadisticasBottom() {
         contenedor.innerHTML = `
             <div class="bg-white p-4 rounded-2xl shadow-sm border-l-4 border-accent flex items-center justify-between gap-4">
                 <div class="space-y-1">
-                    <span class="text-md font-black text-slate-800 block">💡 ${total} Proyectos Finalistas</span>
+                    <span class="text-md font-black text-slate-800 block">💡 78 Proyectos Finalistas y 3 Proyectos Ganadores</span>
                     <p class="text-xs md:text-sm font-medium text-slate-500">Los mejores proyectos escolares de ciencia y tecnología a nivel nacional</p>
                 </div>
             </div>`;
